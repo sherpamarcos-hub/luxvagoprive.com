@@ -4,6 +4,8 @@ Projeto: Elite Travel Experience & Sovereign AI Concierge
 Versão: 1.0.0
 Autor: Marcos Carvalho (Founder & Protocol Architect)
 Localização: Pouso Alegre, MG
+Repositório: https://github.com/sabtis/friendly-doodle
+Diretório: https://github.com/sabtis/friendly-doodle/tree/master
 ================================================================================
 
 ====================
