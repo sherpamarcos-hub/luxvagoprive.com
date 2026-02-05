@@ -1,0 +1,453 @@
+================================================================================
+RESUMO TÉCNICO COMPLETO - LUXVAGO PRIVÉ
+Projeto: Elite Travel Experience & Sovereign AI Concierge
+Versão: 1.0.0
+Autor: Marcos Carvalho (Founder & Protocol Architect)
+Localização: Pouso Alegre, MG
+================================================================================
+
+====================
+STACK TECNOLÓGICA
+====================
+
+FRONTEND FRAMEWORK:
+- React 18.3.1
+- TypeScript 5.6.3
+- Vite 5.4.10 (build tool)
+
+BIBLIOTECAS PRINCIPAIS:
+- Lucide React 0.453.0 (ícones)
+- @google/genai 1.38.0 (Gemini AI SDK)
+- Leaflet 1.9.4 (mapas interativos)
+- Tailwind CSS (via CDN)
+
+DEPLOY & INFRAESTRUTURA:
+- Vercel (plataforma de deploy)
+- Vercel Edge Functions
+- Service Worker (PWA support)
+- Progressive Web App (PWA)
+
+APIS & SERVIÇOS:
+- Google Gemini AI (gemini-3-flash-preview, gemini-3-pro-preview)
+- Google Search (via Gemini grounding)
+- CartoDB (tiles de mapas)
+
+====================
+CONCEITO DO PROJETO
+====================
+
+LUXVAGO PRIVÉ é uma plataforma de reservas de hotéis de ultra-luxo com IA integrada.
+O projeto possui um conceito de "soberania hoteleira" e "aderência qualificada".
+
+PILARES DO CONCEITO:
+1. Blindagem de Dados - Criptografia e anonimato local
+2. Antevisão Estratégica - IA prevê necessidades antes do desejo
+3. Independência de Rede - Operação autônoma descentralizada
+4. Adesão Qualificada - Níveis técnicos de integração (Tiers)
+5. Proteção da Rede - Dissolution Protocol para quebras de confiança
+
+TIERS DE ACESSO:
+- Tier I Fundamental ($300) - Camada 01
+- Tier II Sovereign ($650) - Camada 02
+- Tier III Citadel ($950) - Nível Máximo de Curadoria Zenith
+
+====================
+FUNCIONALIDADES
+====================
+
+1. BUSCA E VISUALIZAÇÃO DE HOTÉIS
+   - Cards de hotéis com imagens, preços, ratings
+   - Insights gerados por IA (Gemini)
+   - Filtros avançados
+   - Sistema de wishlist
+   - Auditoria de soberania (Sovereignty Audit)
+
+2. MAPA INTERATIVO
+   - Leaflet com tiles CartoDB (dark/light mode)
+   - Marcadores customizados com preços
+   - Detecção Retina para alta resolução
+   - Fly-to animation ao selecionar hotel
+   - Indicação de hotéis "LuxVago Privé"
+
+3. CHAT IA CONCIERGE
+   - Assistente virtual Gemini
+   - Modo voz (UI preparada)
+   - Grounding com Google Search
+   - Histórico de conversação
+   - Contexto específico por hotel
+
+4. ADMIN DASHBOARD (HQ)
+   - PIN de acesso: 123456
+   - 3 abas: Curadoria, Tesouraria, Aderentes
+   - Gestão de preços dinâmicos (LocalStorage)
+   - Visualização de ativos sob custódia
+   - Protocol Event Log
+   - Painel de aderentes com status
+
+5. CONTA DO USUÁRIO
+   - Zenith Card visual (3 tiers)
+   - Estatísticas de aderência (Honor Points)
+   - Monitor de domínio (Vercel Edge)
+   - The Playbook (5 diretrizes de soberania)
+   - Conversão de moeda (USD/BTC via IA)
+   - Glossário institucional
+
+6. PARTNERSHIP/ADESÃO
+   - Manifesto com Dissolution Protocol
+   - Seleção de tier de aderência
+   - Assinatura digital
+   - Conversão para BTC em tempo real
+   - Credencial final de Associate
+
+7. PWA (PROGRESSIVE WEB APP)
+   - Manifest.json configurado
+   - Service Worker para cache
+   - Instalável em dispositivos móveis
+   - Modo standalone
+   - Ícones e splash screen
+
+====================
+ESTRUTURA DE ARQUIVOS
+====================
+
+RAIZ DO PROJETO:
+├── index.html - HTML principal com Tailwind CDN, importmap ESM, loading screen
+├── index.tsx - Entry point React, renderiza <App />
+├── App.tsx - Componente principal com navegação (home, map, account, business)
+├── package.json - Dependências e scripts npm
+├── vite.config.ts - Configuração Vite (porta 3000, env vars, alias)
+├── tsconfig.json - Configuração TypeScript
+├── vercel.json - Config Vercel (framework: vite, outputDirectory: dist)
+├── .env.local - Variável GEMINI_API_KEY (não commitada)
+├── .gitignore - Ignora node_modules, dist, .env.local, .vercel
+├── manifest.json - PWA manifest
+├── sw.js - Service Worker para cache offline
+├── README.md - Documentação do projeto
+
+TIPOS E CONSTANTES:
+├── types.ts - Interfaces TypeScript (Hotel, UserStats, ZenithCardTier, etc)
+├── constants.ts - Constantes do sistema
+├── constants.tsx - MOCK_HOTELS, SOVEREIGN_PLAYBOOK (5 pilares)
+
+COMPONENTES (components/):
+├── HotelCard.tsx - Card de hotel com IA insight
+├── HotelMap.tsx - Mapa Leaflet com marcadores
+├── AdminDashboard.tsx - Dashboard admin com 3 abas
+├── AccountScreen.tsx - Tela de conta com Zenith Card
+├── PartnershipScreen.tsx - Fluxo de adesão (manifesto → tier → payment)
+├── SupportChat.tsx - Chat IA com modo voz
+├── FilterSheet.tsx - Filtros de busca
+├── GlossarySheet.tsx - Glossário de termos
+├── ImageGallery.tsx - Galeria de imagens
+├── CurrencyConverter.tsx - Conversor USD/BTC com IA
+
+SERVIÇOS (services/):
+├── geminiService.ts - SDK Gemini client-side
+│   ├── getHotelInsight() - Gera insight para hotel
+│   ├── getChatResponse() - Chat com histórico
+│   ├── convertCurrency() - Conversão de moeda
+│   ├── processAdminCommand() - Comandos admin com thinking
+│   └── callWithRetry() - Retry logic para rate limits
+├── ai.ts - Wrapper alternativo de IA
+
+API (api/):
+└── genai.ts - Vercel Serverless Function (handler POST)
+    ├── action: 'insight' - Insight de hotel
+    ├── action: 'chat' - Chat com grounding
+    ├── action: 'admin' - Comandos admin
+    └── action: 'convert' - Conversão de moeda
+
+====================
+DETALHES DOS ARQUIVOS
+====================
+
+APP.TSX (101 linhas):
+- Estado: view ('home' | 'map' | 'account' | 'business'), showAdmin
+- Renderiza condicionalmente: home (lista hotéis), map (HotelMap), account (AccountScreen), business (PartnershipScreen)
+- Admin overlay (AdminDashboard) quando showAdmin=true
+- Barra de navegação fixa com 3 botões (Home, Map, User)
+- Design: dark mode, max-width 430px (mobile-first), altura 100vh
+
+TYPES.TS (93 linhas):
+- Hotel: id, name, location, rating, pricePerNight, image, amenities, coords, sovereigntyAudit, sentimentScores, tier ('essential'|'prive')
+- UserStats: totalSaved, tripsCompleted, zenithPoints, memberSince, tier, honorProgress, referralsCount, rituals?, activeTransfer?
+- ZenithCardTier: 'Fundamental' | 'Sovereign' | 'Zenith'
+- PlaybookGuideline: pilar, directive, action, icon
+- FilterOptions: minRating, selectedAmenities, maxDistance, priceRange
+- ExperienceItem: name, type, description
+- Rituals: temperature, pillowType, morningDrink, wakeUpTime
+- LogisticTransfer: type, status, driverName, eta
+
+CONSTANTS.TSX (78 linhas):
+- SOVEREIGN_PLAYBOOK: 5 diretrizes (P1-P5)
+  - P1: Blindagem de Dados
+  - P2: Antevisão Estratégica
+  - P3: Independência de Rede
+  - P4: Adesão Qualificada
+  - P5: Proteção da Rede (Dissolution Protocol)
+- MOCK_HOTELS: Array com hotel exemplo (Grand Azure Resort - Maldivas)
+  - zenithTier: 3, isZenithAward: true
+  - sovereigntyAudit: securityScore 99.8, foresightRating 98
+  - sentimentScores: privacy 98, service 95, exclusivity 99
+
+HOTELCARD.TSX (120 linhas):
+- Props: hotel, isWishlisted, onToggleWishlist, onClick, isDarkMode
+- useEffect: busca AI insight ao montar
+- Design: rounded-[2.5rem], imagem 72h, badges (Zenith Award, Foresight)
+- Hover: mostra AI insight em overlay
+- Botão wishlist (Heart)
+- Footer: preço + botão "Ver Protocolo"
+
+ADMINDASHBOARD.TSX (203 linhas):
+- Tela de bloqueio com PIN (123456)
+- 3 abas: curadoria, tesouraria, aderentes
+- Tesouraria: inputs para editar preços tiers (localStorage)
+- Curadoria: lista hotels com sovereignty score
+- Aderentes: 3 usuários mockados (Marcos Carvalho como Arquiteto)
+- Protocol Event Log: console estilo terminal
+- Design: bg-[#050608], bordas gold, serif italic
+
+ACCOUNTSCREEN.TSX (230 linhas):
+- ZenithCard component: card visual com tier (gradiente, crown/award/gem)
+- 3 abas: overview, rituals, playbook
+- Monitor de domínio: detecta hostname (luxvagoprive.com = sovereign)
+- Overview: card Zenith + governança técnica + stats
+- Playbook: renderiza SOVEREIGN_PLAYBOOK (5 pilares)
+- Botões: glossário, toggle theme, admin HQ
+- CurrencyConverter no final
+
+PARTNERSHIPSCREEN.TSX (240 linhas):
+- 4 steps: manifesto → tier → payment → success
+- Manifesto: Dissolution Protocol (Art 1, 3, 5), assinatura digital
+- Tier: seleção 3 níveis, preços dinâmicos do localStorage
+- Payment: mostra preço USD + conversão BTC (via AI), loader 5s
+- Success: credencial visual Zenith Associate Nível I/II/III
+- Design: scrollable, rounded-[3.5rem], gold accent
+- Footer: "Pouso Alegre, MG" com ícone Landmark
+
+GEMINISERVICE.TS (89 linhas):
+- GoogleGenAI SDK client-side
+- getAI(): pega API_KEY de process.env
+- callWithRetry(): retry em 429 (rate limit), 2 tentativas, backoff 2x
+- getHotelInsight(): gera insight 7 palavras, modelo gemini-3-flash-preview
+- getChatResponse(): chat com systemInstruction, tools: googleSearch, temperature 0.7
+- convertCurrency(): busca Google Search, temperature 0.1
+- processAdminCommand(): gemini-3-pro-preview com thinkingBudget 4000
+
+API/GENAI.TS (92 linhas):
+- Vercel Serverless Function
+- Handler POST com switch(action)
+- Mesmas funcionalidades do geminiService.ts
+- Retorna JSON com text, sources (grounding chunks)
+- Error handling: 500 "Erro interno no link neural"
+
+HOTELMAP.TSX (177 linhas):
+- Leaflet map com CartoDB tiles (dark/light)
+- detectRetina: true (alta resolução)
+- Marcadores customizados: divIcon com preço + badge "LV"
+- Hover: scale 1.1, active: scale 1.15 com glow gold
+- Click: flyTo com duração 1.2s
+- Card flutuante ao selecionar hotel (bottom-10)
+- Badge "Ativo Validado LuxVago Privé" para não-externos
+
+SUPPORTCHAT.TSX (119 linhas):
+- useState: isVoiceMode, messages, isTyping
+- handleSendMessage(): chama getChatResponse()
+- isVoiceMode: UI com waveform animado (7 barras bouncing)
+- Chat UI: mensagens user (gold) vs bot (zinc-900)
+- Input com botão Send, botão Mic para alternar voz
+- Floating button quando fechado (bottom-28 right-6)
+
+SW.JS (46 linhas):
+- Cache: 'luxvago-zenith-v4'
+- Install: addAll(['/', '/index.html', '/manifest.json'])
+- Activate: deleta caches antigos
+- Fetch: ignora '/api/', network-first com fallback para cache
+
+INDEX.HTML (109 linhas):
+- Tailwind CDN com custom config (cores: gold, onyx, silk, pearl, steel)
+- Leaflet CSS
+- Google Fonts: Inter, Playfair Display (serif)
+- Loading screen: logo LuxVago + barra animada
+- importmap ESM: react, lucide-react, @google/genai, leaflet
+- Service Worker registration
+
+VITE.CONFIG.TS (24 linhas):
+- server: port 3000, host '0.0.0.0'
+- loadEnv() para carregar .env
+- define: process.env.API_KEY, process.env.GEMINI_API_KEY
+- alias: '@' para root
+- plugin: react()
+
+VERCEL.JSON (9 linhas):
+- buildCommand: "npm run build"
+- outputDirectory: "dist"
+- framework: "vite"
+- rewrites: todas rotas → /index.html (SPA)
+
+MANIFEST.JSON (27 linhas):
+- name: "LuxVago Privé"
+- display: standalone
+- background_color: #050505
+- theme_color: #d4af37
+- icons: 192x192, 512x512
+
+====================
+FLUXO DE NAVEGAÇÃO
+====================
+
+1. Usuário acessa app → Loading screen (3s)
+2. Home: lista de hotéis (HotelCard), cada card mostra AI insight
+3. Click hotel → abrir detalhes (não implementado visualmente, mas onClick presente)
+4. Bottom nav: Home, Map, Account
+5. Map: mapa interativo, click hotel → card flutuante
+6. Account: Zenith Card, The Playbook, toggle admin HQ
+7. Admin HQ: PIN 123456 → dashboard com 3 abas
+8. Account → "Aderentes Qualificados" → Partnership Screen
+9. Partnership: manifesto → tier → payment → credencial
+
+====================
+VARIÁVEIS DE AMBIENTE
+====================
+
+.env.local (não versionado):
+- GEMINI_API_KEY=<sua-chave-aqui>
+
+Vite Config:
+- process.env.API_KEY (alias para GEMINI_API_KEY)
+- process.env.GEMINI_API_KEY
+
+====================
+DESIGN SYSTEM
+====================
+
+CORES:
+- gold: #d4af37 (dourado premium)
+- onyx: #050505 (preto profundo)
+- silk: #f4f4f5 (branco suave)
+- pearl: #fafafa (branco pérola)
+- steel: #71717a (cinza metálico)
+
+TIPOGRAFIA:
+- Sans: Inter (400, 600, 700, 900)
+- Serif: Playfair Display (italic 700)
+
+PADRÕES:
+- Border radius: 2.5rem, 3rem, 3.5rem (muito arredondado)
+- Spacing: p-8, p-10, p-12 (generoso)
+- Shadows: shadow-2xl, shadow-[custom]
+- Transitions: duration-500, duration-700, ease-out
+- Dark mode: classe .dark, bg-[#050505]
+
+ANIMAÇÕES:
+- animate-in, fade-in, slide-in-from-bottom, zoom-in-95
+- animate-pulse (gold accents)
+- animate-bounce (loading, icons)
+- Hover: scale-105, brightness-110
+- Active: scale-95, scale-[0.98]
+
+====================
+SCRIPTS NPM
+====================
+
+npm run dev - Vite dev server (porta 3000)
+npm run build - Vite build para produção (output: dist/)
+npm run preview - Preview do build
+
+====================
+DEPLOYMENT
+====================
+
+PLATAFORMA: Vercel
+REPOSITÓRIO: https://github.com/sabtis/friendly-doodle.git
+BRANCH: master
+
+COMANDOS:
+git add .
+git commit -m "mensagem"
+git push
+
+Vercel faz deploy automático ao detectar push.
+
+BUILD:
+- Framework: Vite detectado automaticamente
+- Output: dist/
+- Build time: ~2min
+- Bundle: ~624 KB (main-*.js)
+
+====================
+CONCEITOS ÚNICOS
+====================
+
+1. DISSOLUTION PROTOCOL
+   - Vínculo baseado em confiança qualificada
+   - Isolamento neural em caso de quebra
+   - Reversão nominal: recompra pelo valor de entrada
+   - Sem poder deliberativo
+
+2. SOVEREIGNTY AUDIT
+   - securityScore: 0-100
+   - autonomyStatus: verified/pending
+   - shieldStatus: active/reinforcing/standby
+   - foresightRating: capacidade de antecipação
+   - complianceScore: conformidade técnica
+
+3. HONOR POINTS (HP)
+   - Métrica de aderência de confiança
+   - Barra de progresso (honorProgress 0-100%)
+   - Determina tier advancement
+
+4. ZENITH ASSOCIATES
+   - Limite de 30 por cluster regional
+   - Não são sócios, são "aderentes"
+   - Condicionado por conformidade técnica
+
+5. PROTOCOLO DE ANTEVISÃO
+   - IA analisa padrões
+   - Ajusta ambiente antes do desejo
+   - Automação invisível
+
+====================
+REFERÊNCIAS CULTURAIS
+====================
+
+- "Marcos Carvalho" como Founder & Protocol Architect
+- Pouso Alegre, MG como sede
+- "Nó Soberano" (infraestrutura descentralizada)
+- "Vercel Edge" (network distribuído)
+- "Shibuya Cluster" (mencionado em logs)
+- Terminologia militar/técnica: HQ, Protocolo, Auditoria, Tesouraria
+
+====================
+PENDÊNCIAS/MELHORIAS
+====================
+
+1. Implementação real de rituals (AccountScreen)
+2. Modo voz do chat (Web Speech API)
+3. Mais hotéis além do mock
+4. Integração real de pagamento
+5. Sistema de autenticação
+6. Backend persistente (atualmente localStorage)
+7. Notificações push (PWA)
+8. Galeria de imagens do hotel
+9. Sistema de reviews
+10. Multi-idioma
+
+====================
+OBSERVAÇÕES TÉCNICAS
+====================
+
+- ESM Imports via importmap (sem bundler no HTML)
+- Mixing CDN (Tailwind) + npm (React)
+- Client-side AI (Gemini SDK direto no browser)
+- LocalStorage para persistência temporária
+- Service Worker básico (network-first)
+- Sem SSR (SPA puro)
+- Mobile-first (max-width 430px)
+- Dark mode default
+
+================================================================================
+FIM DO RESUMO
+Este documento serve como referência completa para outros modelos de linguagem
+ou desenvolvedores que precisem entender ou dar manutenção ao projeto.
+================================================================================
