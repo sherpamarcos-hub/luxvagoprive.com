@@ -1,0 +1,7 @@
+{
+  "name": "LuxVagoPrivé",
+  "description": "Plataforma de busca de hotéis de luxo com IA Concierge e interface nativa PWA de alta performance.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
