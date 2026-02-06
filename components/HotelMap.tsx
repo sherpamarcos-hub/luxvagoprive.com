@@ -6,18 +6,26 @@ import L from 'leaflet';
 
 interface HotelMapProps {
   hotels: Hotel[];
+  initialSelectedId?: string | null;
   onSelectHotel: (hotel: Hotel) => void;
   isWishlisted: (id: string) => boolean;
   onToggleWishlist: (hotel: Hotel, e: React.MouseEvent) => void;
   isDarkMode: boolean;
 }
 
-const HotelMap: React.FC<HotelMapProps> = ({ hotels, onSelectHotel, isWishlisted, onToggleWishlist, isDarkMode }) => {
+const HotelMap: React.FC<HotelMapProps> = ({ hotels, initialSelectedId, onSelectHotel, isWishlisted, onToggleWishlist, isDarkMode }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
   const markersRef = useRef<{ [key: string]: L.Marker }>({});
   const [activeHotel, setActiveHotel] = useState<Hotel | null>(null);
   const tileLayerRef = useRef<L.TileLayer | null>(null);
+
+  useEffect(() => {
+    if (initialSelectedId) {
+      const hotel = hotels.find(h => h.id === initialSelectedId);
+      if (hotel) setActiveHotel(hotel);
+    }
+  }, [initialSelectedId, hotels]);
 
   useEffect(() => {
     if (!mapContainerRef.current) return;
@@ -38,7 +46,7 @@ const HotelMap: React.FC<HotelMapProps> = ({ hotels, onSelectHotel, isWishlisted
     }
 
     // Camadas de alta fidelidade da CartoDB
-    const tileUrl = isDarkMode 
+    const tileUrl = isDarkMode
       ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
       : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 
@@ -78,10 +86,10 @@ const HotelMap: React.FC<HotelMapProps> = ({ hotels, onSelectHotel, isWishlisted
       });
 
       const marker = L.marker(pos, { icon: customIcon }).addTo(map);
-      
+
       marker.on('click', () => {
         setActiveHotel(hotel);
-        map.flyTo(pos, Math.max(map.getZoom(), 12), { 
+        map.flyTo(pos, Math.max(map.getZoom(), 12), {
           duration: 1.2,
           easeLinearity: 0.25
         });
@@ -128,7 +136,7 @@ const HotelMap: React.FC<HotelMapProps> = ({ hotels, onSelectHotel, isWishlisted
 
       {activeHotel && (
         <div className="absolute bottom-10 left-6 right-6 animate-in slide-in-from-bottom-12 duration-500 z-[1000]">
-          <div 
+          <div
             onClick={() => onSelectHotel(activeHotel)}
             className="bg-white/95 dark:bg-black/95 backdrop-blur-2xl rounded-[2.5rem] shadow-[0_30px_70px_-15px_rgba(0,0,0,0.4)] flex flex-col overflow-hidden border border-zinc-200 dark:border-white/5 cursor-pointer active:scale-[0.98] transition-all"
           >
@@ -137,7 +145,7 @@ const HotelMap: React.FC<HotelMapProps> = ({ hotels, onSelectHotel, isWishlisted
                 Ativo Validado LuxVago Privé
               </div>
             )}
-            
+
             <div className="p-5 flex gap-5 items-center">
               <div className="w-20 h-20 rounded-2xl overflow-hidden shrink-0 shadow-lg border border-white/10">
                 <img src={activeHotel.image} alt={activeHotel.name} className="w-full h-full object-cover" />
@@ -164,10 +172,10 @@ const HotelMap: React.FC<HotelMapProps> = ({ hotels, onSelectHotel, isWishlisted
       )}
 
       <div className="absolute top-6 left-6 flex flex-col gap-2 z-[1000]">
-         <div className="bg-white/80 dark:bg-black/80 backdrop-blur-xl px-5 py-2.5 rounded-full shadow-xl text-[10px] font-black text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-white/10 uppercase tracking-[0.2em] flex items-center gap-2">
-            <Shield size={12} className="text-gold" />
-            Terminal de Localização Soberano
-         </div>
+        <div className="bg-white/80 dark:bg-black/80 backdrop-blur-xl px-5 py-2.5 rounded-full shadow-xl text-[10px] font-black text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-white/10 uppercase tracking-[0.2em] flex items-center gap-2">
+          <Shield size={12} className="text-gold" />
+          Terminal de Localização Soberano
+        </div>
       </div>
     </div>
   );

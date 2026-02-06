@@ -62,7 +62,7 @@ export interface Hotel {
   isExternal?: boolean;
   tier: 'essential' | 'prive';
   isZenithAward?: boolean;
-  zenithTier?: 1 | 2 | 3; 
+  zenithTier?: 1 | 2 | 3;
   coords: { lat: number; lng: number; };
   sovereigntyAudit?: {
     autonomyStatus: string;

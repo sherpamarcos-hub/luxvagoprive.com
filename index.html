@@ -9,6 +9,10 @@
     <meta name="apple-mobile-web-app-title" content="LuxVago">
     <title>LuxVago Privé | Elite Concierge</title>
     <link rel="manifest" href="/manifest.json">
+    <script>
+        // Polyfill para evitar quebra ao acessar process.env no browser
+        window.process = { env: {} };
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -66,9 +70,9 @@
 <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@^19.2.4",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@18.3.1",
+    "react-dom/": "https://esm.sh/react-dom@18.3.1/",
+    "react/": "https://esm.sh/react@18.3.1/",
     "@google/genai": "https://esm.sh/@google/genai@^1.38.0",
     "lucide-react": "https://esm.sh/lucide-react@^0.453.0",
     "leaflet": "https://esm.sh/leaflet@^1.9.4",
