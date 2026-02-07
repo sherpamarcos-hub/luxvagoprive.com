@@ -8,7 +8,7 @@ import { MOCK_HOTELS } from '../constants';
 const AdminDashboard: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [isLocked, setIsLocked] = useState(true);
   const [pin, setPin] = useState('');
-  const [activeTab, setActiveTab] = useState<'curadoria' | 'tesouraria' | 'aderentes'>('curadoria');
+  const [activeTab, setActiveTab] = useState<'curadoria' | 'tesouraria' | 'aderentes' | 'infra'>('curadoria');
   const [removedAdherents, setRemovedAdherents] = useState<string[]>(() => {
     const saved = localStorage.getItem('dissolved_adherents');
     return saved ? JSON.parse(saved) : [];
@@ -19,6 +19,13 @@ const AdminDashboard: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     t2: Number(localStorage.getItem('zenith_tier2_price')) || 650,
     t3: Number(localStorage.getItem('zenith_tier3_price')) || 950
   });
+
+  // Auto-save logic
+  React.useEffect(() => {
+    localStorage.setItem('zenith_tier1_price', prices.t1.toString());
+    localStorage.setItem('zenith_tier2_price', prices.t2.toString());
+    localStorage.setItem('zenith_tier3_price', prices.t3.toString());
+  }, [prices]);
 
   const handleUnlock = (e: React.FormEvent) => {
     e.preventDefault();
@@ -69,7 +76,7 @@ const AdminDashboard: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         <div className="flex items-center gap-4">
           <div className="w-10 h-10 bg-gold rounded-xl flex items-center justify-center font-black text-onyx shadow-lg">Z</div>
           <div>
-            <h1 className="text-[10px] font-black uppercase tracking-[0.3em] text-white">Sovereign Command</h1>
+            <h1 className="text-[10px] font-black uppercase tracking-[0.3em] text-white">Sovereign Command <span className="text-gold/50 text-[7px] ml-2">V10.0.0-N</span></h1>
             <p className="text-[7px] text-gold font-bold uppercase tracking-widest">Protocol Architect: Marcos Carvalho</p>
           </div>
         </div>
@@ -80,7 +87,8 @@ const AdminDashboard: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         {[
           { id: 'curadoria', icon: Briefcase, label: 'Curadoria' },
           { id: 'tesouraria', icon: BarChart3, label: 'Tesouraria' },
-          { id: 'aderentes', icon: Users, label: 'Aderentes' }
+          { id: 'aderentes', icon: Users, label: 'Aderentes' },
+          { id: 'infra', icon: Terminal, label: 'Infraestrutura' }
         ].map(t => (
           <button
             key={t.id}
@@ -171,43 +179,76 @@ const AdminDashboard: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           </div>
         )}
 
-        {activeTab === 'aderentes' && (
+        {activeTab === 'infra' && (
           <div className="space-y-10 animate-in fade-in">
-            <div className="flex justify-between items-center">
-              <h3 className="text-2xl font-bold text-white serif italic">Painel de Aderência</h3>
-              <span className="px-4 py-1.5 bg-gold/10 text-gold rounded-full text-[9px] font-black uppercase tracking-widest border border-gold/20">03 ATIVOS NA REDE</span>
+            <div className="space-y-2">
+              <h3 className="text-2xl font-bold text-white serif italic">Sincronização Soberana</h3>
+              <p className="text-[9px] text-zinc-500 font-black uppercase tracking-widest">Transfira o estado do protocolo entre dispositivos (Notebook ↔ Mobile)</p>
             </div>
-            <div className="space-y-4">
-              {[
-                { name: "Marcos Carvalho", role: "Arquiteto", score: 100, status: "Soberano", tier: "HQ" },
-                { name: "Aderente #042", role: "Associate", score: 98, status: "Conforme", tier: "III" },
-                { name: "Aderente #061", role: "Associate", score: 54, status: "Alerta", tier: "II" }
-              ].filter(a => !removedAdherents.includes(a.name)).map((a, i) => (
-                <div key={i} className="p-8 bg-[#0c0d0f] rounded-[2.5rem] border border-white/5 flex items-center justify-between group hover:bg-white/5 transition-all">
-                  <div className="flex items-center gap-6">
-                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center border ${a.score > 60 ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500' : 'bg-red-500/10 border-red-500/20 text-red-500'}`}>
-                      <Users size={20} />
-                    </div>
-                    <div>
-                      <p className="text-lg font-bold text-white">{a.name}</p>
-                      <p className="text-[9px] text-zinc-500 font-black uppercase tracking-widest">Tier {a.tier} | HP Compliance: {a.score}%</p>
-                    </div>
-                  </div>
-                  {a.score < 60 ? (
-                    <button
-                      onClick={() => handleDissolution(a.name)}
-                      className="px-6 py-3 bg-red-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl hover:scale-105 active:scale-95 transition-all"
-                    >
-                      Isolar da Rede
-                    </button>
-                  ) : (
-                    <div className="flex items-center gap-2">
-                      <span className="text-[8px] text-emerald-500 font-black uppercase">Online</span>
-                      <ShieldCheck size={24} className="text-emerald-500" />
-                    </div>
-                  )}
+
+            <div className="grid grid-cols-1 gap-6">
+              <div className="p-8 bg-white/5 rounded-[2.5rem] border border-white/10 space-y-6">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 bg-gold/10 text-gold rounded-xl"><Activity size={20} /></div>
+                  <p className="text-[11px] font-black text-white uppercase tracking-widest">Snapshot de Rede</p>
                 </div>
-              ))}
+                <p className="text-[10px] text-zinc-500 leading-relaxed italic">Gere um código de sincronia para injetar em outro dispositivo. Isso moverá preços e configurações de rede.</p>
+                <div className="flex gap-4">
+                  <button
+                    onClick={() => {
+                      const data = {
+                        prices,
+                        dissolved: removedAdherents,
+                        timestamp: Date.now()
+                      };
+                      const blob = btoa(JSON.stringify(data));
+                      navigator.clipboard.writeText(blob);
+                      alert("Credencial Zenith copiada para a área de transferência.");
+                    }}
+                    className="flex-1 bg-gold text-onyx py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:scale-[1.02] transition-all"
+                  >
+                    Exportar Credencial
+                  </button>
+                  <button
+                    onClick={() => {
+                      const blob = prompt("Injete a Credencial Zenith (Código de Sincronia):");
+                      if (blob) {
+                        try {
+                          const decoded = JSON.parse(atob(blob));
+                          setPrices(decoded.prices);
+                          setRemovedAdherents(decoded.dissolved);
+                          localStorage.setItem('dissolved_adherents', JSON.stringify(decoded.dissolved));
+                          localStorage.setItem('zenith_tier1_price', decoded.prices.t1.toString());
+                          localStorage.setItem('zenith_tier2_price', decoded.prices.t2.toString());
+                          localStorage.setItem('zenith_tier3_price', decoded.prices.t3.toString());
+                          alert("Protocolo Sincronizado com Sucesso. Reiniciando núcleo...");
+                          window.location.reload();
+                        } catch (e) {
+                          alert("Falha na integridade da credencial.");
+                        }
+                      }
+                    }}
+                    className="flex-1 bg-white/10 text-white py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-white/20 transition-all border border-white/10"
+                  >
+                    Injetar Credencial
+                  </button>
+                </div>
+              </div>
+
+              <div className="p-8 bg-red-500/5 rounded-[2.5rem] border border-red-500/10 space-y-4">
+                <p className="text-[10px] font-black text-red-500 uppercase tracking-widest">Zona de Dissolução Local</p>
+                <button
+                  onClick={() => {
+                    if (confirm("Deseja resetar o cache local e as credenciais deste dispositivo?")) {
+                      localStorage.clear();
+                      window.location.reload();
+                    }
+                  }}
+                  className="w-full py-4 border border-red-500/20 text-red-500/50 hover:text-red-500 rounded-2xl text-[9px] font-black uppercase tracking-widest transition-all"
+                >
+                  Resetar Cache da Rede
+                </button>
+              </div>
             </div>
           </div>
         )}

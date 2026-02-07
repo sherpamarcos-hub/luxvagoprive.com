@@ -12,12 +12,12 @@ interface HotelCardProps {
   isDarkMode: boolean;
 }
 
-const HotelCard: React.FC<HotelCardProps> = ({ 
-  hotel, 
-  isWishlisted, 
-  onToggleWishlist, 
-  onClick, 
-  isDarkMode 
+const HotelCard: React.FC<HotelCardProps> = ({
+  hotel,
+  isWishlisted,
+  onToggleWishlist,
+  onClick,
+  isDarkMode
 }) => {
   const [aiInsight, setAiInsight] = useState<string | null>(null);
 
@@ -37,17 +37,17 @@ const HotelCard: React.FC<HotelCardProps> = ({
   }, [hotel.id]);
 
   return (
-    <div 
+    <div
       onClick={() => onClick(hotel)}
-      className="bg-white dark:bg-zinc-900/50 rounded-[2.5rem] overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.03)] dark:shadow-none transition-all duration-500 cursor-pointer border border-zinc-200/50 dark:border-white/5 group relative active:scale-[0.98]"
+      className="bg-white dark:bg-[#050505] rounded-[2.5rem] overflow-hidden shadow-[0_4px_30px_rgba(0,0,0,0.1)] transition-all duration-500 cursor-pointer border border-zinc-200/50 dark:border-gold/20 group relative active:scale-[0.98]"
     >
       <div className="relative h-72 overflow-hidden">
-        <img 
-          src={hotel.image} 
-          alt={hotel.name} 
+        <img
+          src={hotel.image}
+          alt={hotel.name}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[3000ms]"
         />
-        
+
         <div className="absolute top-5 left-5 z-10 flex flex-col gap-2">
           {hotel.isZenithAward && (
             <div className="w-12 h-12 rounded-2xl bg-black/40 backdrop-blur-xl flex items-center justify-center border border-white/20 shadow-2xl">
@@ -55,17 +55,16 @@ const HotelCard: React.FC<HotelCardProps> = ({
             </div>
           )}
           <div className="px-3 py-1.5 bg-gold/90 backdrop-blur-xl rounded-xl flex items-center gap-1.5 shadow-2xl border border-white/20">
-             <Zap size={10} className="text-onyx" />
-             <span className="text-[8px] font-black text-onyx uppercase tracking-tighter">Foresight: {hotel.sovereigntyAudit?.foresightRating}%</span>
+            <Zap size={10} className="text-onyx" />
+            <span className="text-[8px] font-black text-onyx uppercase tracking-tighter">Foresight: {hotel.sovereigntyAudit?.foresightRating}%</span>
           </div>
         </div>
 
         <div className="absolute top-5 right-5 z-10">
-          <button 
+          <button
             onClick={(e) => { e.stopPropagation(); onToggleWishlist(hotel, e); }}
-            className={`p-3.5 rounded-2xl backdrop-blur-xl border border-white/10 transition-all ${
-              isWishlisted ? 'bg-gold text-onyx' : 'bg-black/40 text-white'
-            }`}
+            className={`p-3.5 rounded-2xl backdrop-blur-xl border border-white/10 transition-all ${isWishlisted ? 'bg-gold text-onyx' : 'bg-black/40 text-white'
+              }`}
           >
             <Heart size={18} fill={isWishlisted ? "currentColor" : "none"} />
           </button>
@@ -74,14 +73,14 @@ const HotelCard: React.FC<HotelCardProps> = ({
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-40" />
 
         <div className="absolute bottom-5 left-6 right-6 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
-           <div className="bg-white/10 backdrop-blur-xl p-3 rounded-xl border border-white/10">
-              <p className="text-[9px] leading-tight text-white font-medium italic border-l-2 border-gold pl-3 truncate">
-                {aiInsight || "Sincronizando..."}
-              </p>
-           </div>
+          <div className="bg-white/10 backdrop-blur-xl p-3 rounded-xl border border-white/10">
+            <p className="text-[9px] leading-tight text-white font-medium italic border-l-2 border-gold pl-3 truncate">
+              {aiInsight || "Sincronizando..."}
+            </p>
+          </div>
         </div>
       </div>
-      
+
       <div className="p-6 space-y-4">
         <div className="flex justify-between items-start">
           <div className="space-y-1">
@@ -92,10 +91,10 @@ const HotelCard: React.FC<HotelCardProps> = ({
             </div>
           </div>
           <div className="flex flex-col items-end gap-1">
-             <div className="flex items-center gap-1.5 px-3 py-1 bg-zinc-100 dark:bg-emerald-500/10 rounded-xl border border-zinc-200/50 dark:border-emerald-500/30">
-               <ShieldCheck size={12} className="text-emerald-500" />
-               <span className="text-[9px] font-bold text-zinc-800 dark:text-emerald-500 uppercase tracking-tighter">Auditado</span>
-             </div>
+            <div className="flex items-center gap-1.5 px-3 py-1 bg-zinc-100 dark:bg-emerald-500/10 rounded-xl border border-zinc-200/50 dark:border-emerald-500/30">
+              <ShieldCheck size={12} className="text-emerald-500" />
+              <span className="text-[9px] font-bold text-zinc-800 dark:text-emerald-500 uppercase tracking-tighter">Auditado</span>
+            </div>
           </div>
         </div>
 
@@ -106,8 +105,11 @@ const HotelCard: React.FC<HotelCardProps> = ({
               <span className="text-2xl font-black text-zinc-900 dark:text-white tracking-tighter">${hotel.pricePerNight}</span>
             </div>
           </div>
-          
-          <button className="bg-zinc-900 dark:bg-gold text-white dark:text-onyx px-5 py-3 rounded-xl font-bold text-[9px] uppercase tracking-widest hover:brightness-110 transition-all">
+
+          <button
+            onClick={(e) => { e.stopPropagation(); onClick(hotel); }}
+            className="bg-zinc-900 dark:bg-gold text-white dark:text-onyx px-5 py-3 rounded-xl font-bold text-[9px] uppercase tracking-widest hover:brightness-110 transition-all"
+          >
             Ver Protocolo
           </button>
         </div>

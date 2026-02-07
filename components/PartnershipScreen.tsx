@@ -1,7 +1,7 @@
 
 // @google/genai coding guidelines followed
 import React, { useState, useEffect, useMemo } from 'react';
-import { Shield, Award, Crown, Loader2, ScrollText, Landmark, Scale, Landmark as PousoAlegreIcon, AlertTriangle, EyeOff, ShieldCheck, Info, FileText, BookOpen } from 'lucide-react';
+import { Shield, Award, Crown, Loader2, ScrollText, Landmark, Scale, Landmark as PousoAlegreIcon, AlertTriangle, EyeOff, ShieldCheck, Info, FileText, BookOpen, TrendingUp } from 'lucide-react';
 import { convertCurrency } from '../services/geminiService';
 import GlossarySheet from './GlossarySheet';
 
@@ -16,6 +16,13 @@ const PartnershipScreen: React.FC<PartnershipScreenProps> = ({ isDarkMode }) => 
   const [btcValue, setBtcValue] = useState<string | null>(null);
   const [signature, setSignature] = useState('');
   const [isGlossaryOpen, setIsGlossaryOpen] = useState(false);
+
+  // Câmbio Dinâmico State
+  const [exchangeAmount, setExchangeAmount] = useState<number>(1000);
+  const [exchangeFrom, setExchangeFrom] = useState('USD');
+  const [exchangeTo, setExchangeTo] = useState('BTC');
+  const [exchangeResult, setExchangeResult] = useState<string | null>(null);
+  const [isExchanging, setIsExchanging] = useState(false);
 
   const dynamicPrices = useMemo(() => {
     return {
@@ -210,6 +217,75 @@ const PartnershipScreen: React.FC<PartnershipScreenProps> = ({ isDarkMode }) => 
 
       {step === 'payment' && (
         <div className="space-y-12 animate-in fade-in duration-500">
+          <div className="space-y-6">
+            <div className="bg-[#0c0d0f] border border-white/10 p-10 rounded-[3rem] space-y-8 shadow-2xl">
+              <div className="flex items-center gap-3 border-b border-gold/20 pb-4">
+                <Landmark size={20} className="text-gold" />
+                <h3 className="text-[12px] font-black text-gold uppercase tracking-[0.4em]">Terminal de Câmbio Sovereign</h3>
+              </div>
+
+              <div className="grid grid-cols-1 gap-6">
+                <div className="space-y-3">
+                  <p className="text-[9px] text-zinc-500 font-black uppercase tracking-widest pl-2">Valor Nominal</p>
+                  <input
+                    type="number"
+                    value={exchangeAmount}
+                    onChange={(e) => setExchangeAmount(Number(e.target.value))}
+                    className="w-full bg-black border-2 border-white/5 rounded-2xl py-5 px-6 text-2xl font-black text-white outline-none focus:border-gold transition-all"
+                  />
+                </div>
+
+                <div className="flex gap-4">
+                  <div className="flex-1 space-y-3">
+                    <p className="text-[9px] text-zinc-500 font-black uppercase tracking-widest pl-2">Origem</p>
+                    <select
+                      value={exchangeFrom}
+                      onChange={(e) => setExchangeFrom(e.target.value)}
+                      className="w-full bg-black border-2 border-white/5 rounded-2xl py-4 px-6 text-sm font-black text-white outline-none focus:border-gold appearance-none"
+                    >
+                      {['USD', 'EUR', 'BRL', 'GBP'].map(m => <option key={m} value={m}>{m}</option>)}
+                    </select>
+                  </div>
+                  <div className="flex-1 space-y-3">
+                    <p className="text-[9px] text-zinc-500 font-black uppercase tracking-widest pl-2">Destino</p>
+                    <select
+                      value={exchangeTo}
+                      onChange={(e) => setExchangeTo(e.target.value)}
+                      className="w-full bg-black border-2 border-white/5 rounded-2xl py-4 px-6 text-sm font-black text-white outline-none focus:border-gold appearance-none"
+                    >
+                      {['BTC', 'ETH', 'USD', 'XRP'].map(m => <option key={m} value={m}>{m}</option>)}
+                    </select>
+                  </div>
+                </div>
+
+                <button
+                  onClick={async () => {
+                    setIsExchanging(true);
+                    try {
+                      const res = await convertCurrency(exchangeAmount, exchangeFrom, exchangeTo);
+                      setExchangeResult(res.text);
+                    } catch (e) {
+                      setExchangeResult("Erro na sincronia.");
+                    } finally {
+                      setIsExchanging(false);
+                    }
+                  }}
+                  className="w-full bg-white/5 border border-gold/30 text-gold py-5 rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] hover:bg-gold/10 transition-all flex items-center justify-center gap-2"
+                >
+                  {isExchanging ? <Loader2 className="animate-spin" size={16} /> : <TrendingUp size={16} />}
+                  Processar Sincronia de Câmbio
+                </button>
+
+                {exchangeResult && (
+                  <div className="p-6 bg-gold/5 border border-gold/20 rounded-2xl text-center animate-in zoom-in-95">
+                    <p className="text-[10px] text-gold/60 font-black uppercase tracking-widest mb-2 font-mono">Resultado Auditado</p>
+                    <p className="text-3xl font-black text-white tracking-tighter">{exchangeResult}</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
           <div className="bg-[#0c0d0f] border border-gold/20 p-12 rounded-[4.5rem] text-center space-y-8 shadow-[0_0_60px_rgba(212,175,55,0.08)]">
             <div className="space-y-2">
               <p className="text-[10px] text-gold font-black uppercase tracking-[0.4em]">Liquidação do Protocolo de Aderência</p>

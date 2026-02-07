@@ -65,3 +65,5 @@
 - `geminiService.ts`: Gateway unificado de inteligência.
 
 **DIRETRIZ FINAL**: O LuxVago Privé não aceita "gordura estrutural". Cada linha de código deve servir à soberania e à privacidade do aderente. Se o sistema não transmitir segurança e exclusividade em cada pixel, o protocolo falhou.
+
+**CRITICAL SANITY CHECK**: Antes de propor qualquer código ou funcionalidade, o Arquiteto IA deve validar a proposta contra o `resumo.txt`. Alucinações técnicas (sugestões de libs desnecessárias ou mudanças de stack) serão tratadas como falha de integridade do protocolo. Em caso de dúvida, mantenha a estabilidade do React 18 e a estética "Old Money".

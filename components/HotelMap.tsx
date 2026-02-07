@@ -129,8 +129,14 @@ const HotelMap: React.FC<HotelMapProps> = ({ hotels, initialSelectedId, onSelect
           border-color: #d4af37 !important;
           box-shadow: 0 0 20px rgba(212, 175, 55, 0.4) !important;
         }
+        .leaflet-tile-container {
+          filter: brightness(0.9) contrast(1.1) !important;
+        }
         .leaflet-container {
-          background: transparent !important;
+          background: #050505 !important;
+        }
+        .map-tiles-high-res {
+          transition: filter 0.5s ease;
         }
       `}</style>
 

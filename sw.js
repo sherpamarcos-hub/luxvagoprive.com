@@ -1,5 +1,5 @@
 
-const CACHE_NAME = 'luxvago-zenith-v4';
+const CACHE_NAME = 'luxvago-zenith-v10.0.0';
 const ASSETS = [
   '/',
   '/index.html',
