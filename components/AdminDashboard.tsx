@@ -169,7 +169,7 @@ const AdminDashboard: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                   </div>
                   <div className="flex items-center gap-4">
                     <span className="px-3 py-1 bg-emerald-500/10 text-emerald-500 text-[8px] font-black uppercase tracking-widest border border-emerald-500/20 rounded-full">{adherent.status}</span>
-                    <button 
+                    <button
                       onClick={() => handleDissolution(adherent.name)}
                       className="p-3 text-zinc-600 hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-all"
                     >
@@ -178,14 +178,14 @@ const AdminDashboard: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                   </div>
                 </div>
               ))}
-              
+
               {removedAdherents.length > 0 && (
                 <div className="pt-10 space-y-4">
                   <h4 className="text-[10px] font-black text-red-500/50 uppercase tracking-[0.3em]">Membros em Quarentena de Dissolução</h4>
                   {removedAdherents.map(name => (
                     <div key={name} className="p-6 bg-red-500/5 border border-red-500/10 rounded-3xl flex justify-between items-center opacity-60">
                       <span className="text-xs text-red-500 font-bold">{name}</span>
-                      <button 
+                      <button
                         onClick={() => {
                           const updated = removedAdherents.filter(n => n !== name);
                           setRemovedAdherents(updated);
@@ -201,6 +201,9 @@ const AdminDashboard: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               )}
             </div>
           </div>
+        )}
+
+        {activeTab === 'curadoria' && (
           <div className="space-y-10 animate-in fade-in">
             <h3 className="text-[11px] font-black text-zinc-500 uppercase tracking-[0.3em] flex items-center gap-3"><Eye size={16} className="text-gold" /> Ativos Sob Custódia Zenith</h3>
             <div className="space-y-6">
