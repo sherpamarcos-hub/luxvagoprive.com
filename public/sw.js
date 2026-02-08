@@ -1,4 +1,3 @@
-
 const CACHE_NAME = 'luxvago-zenith-v10.0.0';
 const ASSETS = [
   '/',
@@ -25,11 +24,9 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Ignorar requisições para a API GenAI para não cachear respostas dinâmicas
   if (event.request.url.includes('/api/')) {
     return;
   }
-
   event.respondWith(
     fetch(event.request)
       .then(response => {
