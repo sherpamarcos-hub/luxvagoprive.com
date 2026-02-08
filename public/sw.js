@@ -1,4 +1,4 @@
-const CACHE_NAME = 'luxvago-zenith-v10.0.0';
+const CACHE_NAME = 'luxvago-zenith-v11.0.0';
 const ASSETS = [
   '/',
   '/index.html',

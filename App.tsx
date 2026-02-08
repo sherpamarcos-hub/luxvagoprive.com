@@ -13,7 +13,7 @@ const App = () => {
   const [showAdmin, setShowAdmin] = useState(false);
   const [selectedHotelId, setSelectedHotelId] = useState<string | null>(null);
   const [isSyncing, setIsSyncing] = useState(false);
-  const APP_VERSION = "v10.0.0 ZENITH-NUCLEAR";
+  const APP_VERSION = "v11.0.0-NUCLEUS";
 
   const forceSync = async () => {
     setIsSyncing(true);
