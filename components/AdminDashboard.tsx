@@ -146,7 +146,61 @@ const AdminDashboard: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           </div>
         )}
 
-        {activeTab === 'curadoria' && (
+        {activeTab === 'aderentes' && (
+          <div className="space-y-10 animate-in fade-in">
+            <div className="space-y-2">
+              <h3 className="text-2xl font-bold text-white serif italic">Protocolo de Aderência</h3>
+              <p className="text-[9px] text-zinc-500 font-black uppercase tracking-widest">Gestão de membros e isolamento de rede</p>
+            </div>
+
+            <div className="space-y-4">
+              {[
+                { name: 'Marcos Carvalho', role: 'Arquiteto Sênior', status: 'Verificado', photo: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=100' },
+                { name: 'Investidor 001', role: 'Venture Sovereign', status: 'Auditado', photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100' },
+                { name: 'Agente Elite', role: 'Facilitador Regional', status: 'Ativo', photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=100' }
+              ].filter(a => !removedAdherents.includes(a.name)).map(adherent => (
+                <div key={adherent.name} className="p-6 bg-white/5 rounded-[2.5rem] border border-white/5 flex items-center justify-between group">
+                  <div className="flex items-center gap-6">
+                    <img src={adherent.photo} className="w-14 h-14 rounded-2xl object-cover grayscale" alt="" />
+                    <div>
+                      <p className="text-sm font-bold text-white tracking-tight">{adherent.name}</p>
+                      <p className="text-[8px] text-zinc-500 font-black uppercase tracking-widest mt-1">{adherent.role}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <span className="px-3 py-1 bg-emerald-500/10 text-emerald-500 text-[8px] font-black uppercase tracking-widest border border-emerald-500/20 rounded-full">{adherent.status}</span>
+                    <button 
+                      onClick={() => handleDissolution(adherent.name)}
+                      className="p-3 text-zinc-600 hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-all"
+                    >
+                      <X size={16} />
+                    </button>
+                  </div>
+                </div>
+              ))}
+              
+              {removedAdherents.length > 0 && (
+                <div className="pt-10 space-y-4">
+                  <h4 className="text-[10px] font-black text-red-500/50 uppercase tracking-[0.3em]">Membros em Quarentena de Dissolução</h4>
+                  {removedAdherents.map(name => (
+                    <div key={name} className="p-6 bg-red-500/5 border border-red-500/10 rounded-3xl flex justify-between items-center opacity-60">
+                      <span className="text-xs text-red-500 font-bold">{name}</span>
+                      <button 
+                        onClick={() => {
+                          const updated = removedAdherents.filter(n => n !== name);
+                          setRemovedAdherents(updated);
+                          localStorage.setItem('dissolved_adherents', JSON.stringify(updated));
+                        }}
+                        className="text-[8px] font-bold text-zinc-500 uppercase tracking-widest underline"
+                      >
+                        Reintegrar
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
           <div className="space-y-10 animate-in fade-in">
             <h3 className="text-[11px] font-black text-zinc-500 uppercase tracking-[0.3em] flex items-center gap-3"><Eye size={16} className="text-gold" /> Ativos Sob Custódia Zenith</h3>
             <div className="space-y-6">
