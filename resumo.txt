@@ -4,8 +4,8 @@ Projeto: Curadoria de ativos hoteleiros & Sovereign AI Concierge
 Versão: 1.0.0
 Autor: Marcos Carvalho (Founder & Protocol Architect)
 Localização: Pouso Alegre, MG
-Repositório: https://github.com/sabtis/friendly-doodle
-Diretório: https://github.com/sabtis/friendly-doodle/tree/master
+Domínio Principal: luxvagoprive.com
+Protocolo Zenith: Nuclear v11.0.0
 ================================================================================
 
 ====================

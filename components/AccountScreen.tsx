@@ -27,8 +27,8 @@ const ZenithCard = ({ stats }: { stats: UserStats }) => {
 
   return (
     <div className={`relative w-full aspect-[1.58/1] rounded-[2.5rem] p-8 overflow-hidden shadow-2xl transition-all duration-700 group perspective-1000 ${isZenith ? 'bg-gradient-to-br from-[#0a0a0a] via-[#1a1a1a] to-[#000] border border-white/20' :
-        isSovereign ? 'bg-gradient-to-br from-gold/40 via-gold/10 to-zinc-900 border border-gold/30' :
-          'bg-gradient-to-br from-zinc-200 via-zinc-50 to-zinc-300 border border-white dark:from-zinc-800 dark:to-zinc-900'
+      isSovereign ? 'bg-gradient-to-br from-gold/40 via-gold/10 to-zinc-900 border border-gold/30' :
+        'bg-gradient-to-br from-zinc-200 via-zinc-50 to-zinc-300 border border-white dark:from-zinc-800 dark:to-zinc-900'
       }`}>
       <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] pointer-events-none" />
       <div className="absolute -inset-x-full inset-y-0 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 group-hover:translate-x-[200%] transition-transform duration-1000 pointer-events-none" />
@@ -44,8 +44,8 @@ const ZenithCard = ({ stats }: { stats: UserStats }) => {
             </p>
           </div>
           <div className={`w-14 h-14 rounded-2xl flex items-center justify-center border shadow-inner ${isZenith ? 'bg-gold/10 border-gold/30 text-gold' :
-              isSovereign ? 'bg-black/20 border-gold/20 text-gold' :
-                'bg-black/5 border-black/10 text-zinc-400'
+            isSovereign ? 'bg-black/20 border-gold/20 text-gold' :
+              'bg-black/5 border-black/10 text-zinc-400'
             }`}>
             {isZenith ? <Crown size={28} /> : isSovereign ? <Award size={28} /> : <Gem size={28} />}
           </div>
@@ -89,8 +89,8 @@ const AccountScreen: React.FC<AccountScreenProps> = ({
   useEffect(() => {
     const hostname = window.location.hostname;
     const isSovereign =
-      hostname.includes('luxvagoprive.com') ||
-      hostname.includes('friendly-doodle.vercel.app') ||
+      hostname === 'luxvagoprive.com' ||
+      hostname.endsWith('.luxvagoprive.com') ||
       hostname === 'localhost';
 
     setDomainStatus(isSovereign ? 'sovereign' : 'propagating');
