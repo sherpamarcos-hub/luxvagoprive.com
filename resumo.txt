@@ -62,9 +62,25 @@ ECOSSISTEMA FINANCEIRO HÍBRIDO (ZENITH FINANCE)
 INFRAESTRUTURA TÉCNICA (ZENITH STACK)
 ====================
 
-- CORE: Vite + React + TypeScript (Build ultrarápido e estabilidade).
-- SERVERLESS EDGE: IA processada via Vercel Edge Functions para latência mínima global.
 - GEOLOCALIZAÇÃO ESTRATÉGICA: Leaflet Maps em "Dark Mode" para visualização tática de ativos.
+
+====================
+DUALIDADE DE PLATAFORMAS (ECOSISTEMA)
+====================
+
+O ecossistema LuxVago Privé opera sob dois eixos independentes:
+
+1. NÓ SOBERANO (friendly-doodle):
+   - Função: Aplicação oficial de frente (Master App).
+   - Domínio: luxvagoprive.com
+   - Stack: Vite + React 18 + PWA.
+   - Status: Versão v11.0.0-NUCLEUS (Produção Elite).
+
+2. NÓ DE EVOLUÇÃO (v0-platform):
+   - Função: Sandbox de testes e futura plataforma de gestão (Dashboard Next.js).
+   - Domínio: v0-luxvago-prive-platform.vercel.app
+   - Stack: Next.js 16 + React 19 + Radix UI.
+   - Status: Independente (Não interfere na produção oficial).
 
 ====================
 DETALHES TÉCNICOS DA IMPLEMENTAÇÃO
